@@ -9,7 +9,7 @@ wheref=dir "$1" /s /b
 
 nv=nvim $*
 db=nvim -c DBUI
-obsidian=nvim -c WorkspacesOpen personal
+obsidian=nvim -c "WorkspacesOpen personal"
 
 gaa=git add .
 gcm=git commit -m $*
