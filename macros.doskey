@@ -1,4 +1,5 @@
 clink="C:\tools\clink\clink_x64.exe" $*
+wez-ssh="wezterm ssh --class org.wezfurlong.wezterm-ssh $*"
 
 clear=cls
 e.=explorer .
