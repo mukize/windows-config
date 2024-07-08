@@ -24,3 +24,4 @@ pa=php artisan $*
 pn=pnpm $*
 dev=pnpm run dev
 pnr=pnpm run $*
+imgcat=wezterm imgcat $*
