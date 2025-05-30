@@ -1,0 +1,31 @@
+autosuggest.enable = True
+clink.colorize_input = True
+cmd.auto_answer = answer_yes
+
+color.arg = default
+color.arginfo = yellow
+color.cmd = yellow
+color.cmdredir = bold
+color.cmdsep = bold
+color.comment_row = bright white on cyan
+color.description = bright cyan
+color.doskey = yellow
+color.executable = yellow
+color.filtered = bold
+color.flag = bright cyan
+color.interact = bold
+color.message = default
+color.suggestion = bright black
+color.unexpected = white
+color.unrecognized = white
+
+history.expand_mode = not_dquoted
+history.ignore_space = False
+history.max_lines = 10000
+history.shared = True
+prompt.transient = always
+
+color.git.star = bright green
+color.yarn.module = bright green
+color.yarn.script = bright blue
+
