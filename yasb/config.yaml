@@ -1,0 +1,167 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+
+komorebi:
+  start_command: "sudo komorebic start --whkd"
+  stop_command: "sudo komorebic stop --whkd"
+  reload_command: "sudo komorebic stop --whkd & sudo komorebic start --whkd"
+
+bars:
+  primary-bar:
+    enabled: true
+    screens: ['*']
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: true
+    blur_effect:
+      enabled: false
+      acrylic: true
+      dark_mode: true
+      round_corners: false
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 32
+    padding:
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+    widgets:
+      left: [ "komorebi_workspaces" ]
+      center: [ "clock" ]
+      right: [ "media", "memory", "weather", "battery" ]
+
+widgets:
+  media:
+    type: "yasb.media.MediaWidget"
+    options:
+      label: "{title} - {artist}"
+      label_alt: "{artist}"
+      max_field_size:
+        label: 30
+        label_alt: 24
+      show_thumbnail: false
+      controls_only: false
+      controls_left: false
+      hide_empty: false
+      thumbnail_alpha: 250
+      thumbnail_padding: 0
+      thumbnail_corner_radius: 0
+      icons:
+        prev_track: ""
+        next_track: ""
+        play: ""
+        pause: ""
+
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "<span>\uf4bc</span> {virtual_mem_percent}%"
+      label_alt: "<span>\uf4bc</span> {virtual_mem_percent}%"
+      update_interval: 10000
+      callbacks:
+        on_right: "exec cmd /c Taskmgr"
+
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
+      label_no_window: ""
+      label_icon: true
+      label_icon_size: 14
+      max_length: 56
+      max_length_ellipsis: "..."
+      monitor_exclusive: true
+
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "<span>\udb80\udd50</span> {%a %d %b %H:%M}"
+      label_alt: "<span>\udb80\udd50</span> {%A %d %B %Y %H:%M}"
+      timezones: []
+
+  komorebi_workspaces:
+    type: "komorebi.workspaces.WorkspaceWidget"
+    options:
+        label_offline: "Komorebi Offline"
+        label_workspace_btn: "{index}"
+        label_workspace_active_btn: "{index}"
+        label_workspace_populated_btn: "{index}"
+        label_default_name: "{index}"
+        label_zero_index: false
+        hide_empty_workspaces: true
+        hide_if_offline: false
+        animation: true
+        container_padding:
+          top: 0
+          left: 8
+          bottom: 0
+          right: 8
+
+  komorebi_active_layout:
+    type: "komorebi.active_layout.ActiveLayoutWidget"
+    options:
+      hide_if_offline: true
+      label: "{icon}"
+      layouts: ['bsp', 'columns', 'rows', 'grid', 'vertical_stack', 'horizontal_stack', 'ultrawide_vertical_stack','right_main_vertical_stack']
+      layout_icons:
+        bsp: "BSP"
+        columns: "COLS"
+        rows: "ROWS"
+        grid: "GRID"
+        vertical_stack: "V-STACK"
+        horizontal_stack: "H-STACK"
+        ultrawide_vertical_stack: "W-STACK"
+        right_main_vertical_stack: "RMV-STACK"
+        monocle: "MONOCLE"
+        maximised: "MAX"
+        floating: "FLOATING"
+        paused: "PAUSED"
+      container_padding:
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+      callbacks:
+        on_left: 'next_layout'
+        on_middle: 'toggle_monocle'
+        on_right: 'prev_layout'
+
+  weather:
+    type: "yasb.weather.WeatherWidget"
+    options:
+      label: "<span>{icon}</span> {temp_c}"
+      label_alt: "{location}: Min {min_temp_c}, Max {max_temp_c}, Humidity {humidity}"
+      api_key: '24b6c2cda6d84066b0304531241908'
+      update_interval: 600
+      hide_decimal: true
+      location: 'Bellville, Western Cape'
+      callbacks:
+        on_left: "toggle_label"
+      icons:
+        sunnyDay: "\udb81\udd99"
+        clearNight: "\udb81\udd94"
+        cloudyDay: "\uebaa"
+        cloudyNight: "\uebaa"
+        rainyDay: "\udb81\udd96"
+        rainyNight: "\udb81\udd96"
+        snowyIcyDay: "\udb81\udd92"
+        snowyIcyNight: "\udb81\udd92"
+        blizzard: "\udb81\udd93"
+        default: "\uebaa"
+
+  battery:
+    type: "yasb.battery.BatteryWidget"
+    options:
+      label: "<span>{icon}</span>{percent}%"
+      label_alt: "{icon} {percent}% | time: {time_remaining}"
+      charging_options:
+        icon_format: "{charging_icon}"
+

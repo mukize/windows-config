@@ -1,21 +1,20 @@
 clink="C:\tools\clink\clink_x64.exe" $*
-wez-ssh=wezterm ssh --class org.wezfurlong.wezterm-ssh $*
+wssh=wezterm ssh --class org.wezfurlong.wezterm-ssh $*
+imgcat=wezterm imgcat $*
 
 clear=cls
 e.=explorer .
 md=mkdir $*
-ll=ls -g --group-directories-first -h -s -o --color $*
 ls=ls --show-control-chars -F --color $*
-wheref=dir "$1" /s /b
+ll=ls -g --group-directories-first -h -s -o --color $*
 
 nv=nvim $*
-db=nvim -c DBUI
-obsidian=nvim -c "WorkspacesOpen personal"
 
+ga=git add $*
 gaa=git add .
 gcm=git commit -m $*
 gd=git diff $*
-gl=git log --oneline --all --graph --decorate$*
+gl=git log --oneline --all --graph --decorate $*
 gs=git status --short
 
 jv=java $*
@@ -24,4 +23,12 @@ pa=php artisan $*
 pn=pnpm $*
 dev=pnpm run dev
 pnr=pnpm run $*
-imgcat=wezterm imgcat $*
+
+oct="C:\Program Files\GNU Octave\Octave-8.4.0\octave-launch.exe" --no-gui $*
+
+td=ttdl --config="C:\Users\patri\.config\ttdl\ttdl.toml" $*
+tda=ttdl --config="C:\Users\patri\.config\ttdl\ttdl.toml" add "$*"
+tdl=ttdl --config="C:\Users\patri\.config\ttdl\ttdl.toml" list $*
+
+wttr=curl wttr.in/$*
+cht=curl cht.sh/$*

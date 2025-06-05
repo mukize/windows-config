@@ -4,14 +4,18 @@ local act = wezterm.action
 
 --- font
 config.font_size = 13
-config.font = wezterm.font("IosevkaTerm NF")
-config.line_height = 0.9
+config.font = wezterm.font_with_fallback { "IosevkaTerm NF" }
+-- config.line_height = 0.95
 ---
 
 --- appearance
 config.audible_bell = "Disabled"
 config.color_scheme = "Tokyo Night"
+
+config.front_end = "OpenGL"
+config.prefer_egl = true
 config.window_background_opacity = 0.9
+
 config.window_decorations = "RESIZE"
 config.window_padding = {
 	bottom = 0,
@@ -19,6 +23,7 @@ config.window_padding = {
 	left = 2,
 	right = 2,
 }
+config.adjust_window_size_when_changing_font_size = false
 ---
 
 --- tab bar
@@ -36,7 +41,10 @@ wezterm.on("update-right-status", function(window)
 	}))
 end)
 wezterm.on("format-tab-title", function(tab)
-	local prefix = "|" .. tab.tab_index + 1 .. "| "
+	local prefix = "|" .. tab.tab_index + 1 .. "|"
+	if string.sub(tab.active_pane.title, 1, 1) ~= " " then
+		prefix = prefix .. " "
+	end
 	return prefix .. tab.active_pane.title .. " "
 end)
 ---
@@ -45,23 +53,33 @@ end)
 config.keys = {
 	{ key = "l", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(1) },
 	{ key = "h", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
-	{ key = "Backspace", mods = "CTRL", action = act.SendKey({ key = "w", mods = "CTRL" }) },
 }
 config.send_composed_key_when_left_alt_is_pressed = false -- allows <A-key> maps
-config.allow_win32_input_mode = false -- allows <C-Space> map
+config.allow_win32_input_mode = false                     -- allows <C-Space> map
+config.enable_csi_u_key_encoding = true                   -- fixes <C-a> issue in mprocs
 ---
 
 --- windows
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.default_domain = "WSL:Debian"
+	config.default_cwd = "/home/mukii"
 	config.quick_select_patterns = {
 		"[cC]\\:\\\\[A-Za-z\\\\_.]*", -- windows file links
 	}
-	config.set_environment_variables = {}
-	config.set_environment_variables["CLINK_PROFILE"] = "c:/tools/clink/session"
-	config.set_environment_variables["CLINK_PATH"] = os.getenv("USERPROFILE") .. "\\.config\\clink\\scripts"
-	config.set_environment_variables["PATH"] = os.getenv("PATH") .. ";C:\\Program Files\\Git\\usr\\bin"
-	config.set_environment_variables["prompt"] = "$E]7;file://localhost/$P$E\\$E[32m$T$E[0m $E[35m$P$E[36m$_$G$E[0m "
-	config.default_prog = { "cmd.exe", "/s", "/k", "c:/tools/clink/clink_x64.exe", "inject", "-q" }
+	config.launch_menu = {
+		{
+			label = "Clink",
+			args = { "cmd.exe", "/s", "/k", "c:/tools/clink/clink_x64.exe", "inject", "-q" },
+			domain = { DomainName = "local" },
+			set_environment_variables = {
+				CLINK_PROFILE = "c:/tools/clink/session",
+				CLINK_PATH = os.getenv("USERPROFILE") .. "\\.config\\clink\\scripts ;"
+				    .. os.getenv("USERPROFILE") .. "\\.config\\clink\\completions",
+				PATH = os.getenv("PATH") .. ";C:\\Program Files\\Git\\usr\\bin",
+				prompt = "$E]7;file://localhost/$P$E\\$E[32m$T$E[0m $E[35m$P$E[36m$_$G$E[0m ",
+			},
+		},
+	}
 end
 ---
 
