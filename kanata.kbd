@@ -1,0 +1,17 @@
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+)
+
+(defsrc
+  caps
+)
+
+(defalias
+  escctrl (tap-hold-press 0 175 esc lctrl)
+)
+
+(deflayer base
+  @escctrl
+)
